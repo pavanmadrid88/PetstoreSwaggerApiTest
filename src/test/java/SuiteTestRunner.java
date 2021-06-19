@@ -1,6 +1,5 @@
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
-import org.junit.Assert;
 import stepDefinitions.services.base.BaseService;
 
 import org.junit.AfterClass;
@@ -10,6 +9,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.RestDriver;
@@ -29,9 +29,7 @@ public class SuiteTestRunner {
     public static void init() throws IOException {
 
         logger.info("*****Starting init()*******");
-
         InputStream fileInputStream = SuiteTestRunner.class.getResourceAsStream("/data/configuration/testConfig.properties");
-
         properties = new Properties();
         properties.load(fileInputStream);
         restDriver = new RestDriver(properties);
@@ -42,14 +40,13 @@ public class SuiteTestRunner {
     }
 
 
-
     @AfterClass
     public static void tearDown() {
         logger.info("*****Entering final teardown() *******");
         baseService = null;
         properties = null;
         restDriver = null;
-        logger=null;
+        logger = null;
     }
 
 }
