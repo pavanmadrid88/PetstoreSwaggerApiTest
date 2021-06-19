@@ -28,7 +28,7 @@ jobs:
           path: target
 
       - store_artifacts:
-          path: target/site/serenity
+          path: target/site/serenity/index.html
 
 workflows:
   # Below is the definition of your workflow.
