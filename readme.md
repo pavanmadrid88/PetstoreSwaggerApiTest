@@ -28,7 +28,7 @@
 
 #### Writing Features
 ``` cucumber
-Feature: The lists/reviews service should return a list of book reviews.
+Feature: The pet findByStatus service finds pet by status.
 
 
   @findByStatus
@@ -48,6 +48,7 @@ Feature: The lists/reviews service should return a list of book reviews.
 #### Writing Step Definitions
 To generate step definitions from IntelliJ,
 Go To -> Feature file editor, use create step definition option to generate the definition
+
 ![step-definition](readme-files/images/StepDefinitions.png)
 
 
