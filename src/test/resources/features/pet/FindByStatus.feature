@@ -12,10 +12,10 @@ Feature: The pet findByStatus service finds pet by status
 
     Examples:
       | petName | petStatus |  | statusCode | expectedResponseTime |
-      | Dogs    | available |  | 200        | 9000                 |
-      | Lions   | available |  | 200        | 9000                 |
-      | Lions   | pending   |  | 200        | 9000                 |
-      | Lions   | sold      |  | 200        | 9000                 |
+      | Dogs    | available |  | 200        | 2000                 |
+      | Lions   | available |  | 200        | 2000                 |
+      | Lions   | pending   |  | 200        | 2000                 |
+      | Lions   | sold      |  | 200        | 2000                 |
 
 
   @findByStatus-invalid
