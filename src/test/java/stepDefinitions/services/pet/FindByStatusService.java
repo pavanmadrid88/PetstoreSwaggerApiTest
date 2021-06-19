@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
+import models.response.error.ErrorResponsePojo;
 import models.response.pet.FindByStatusResponsePojo;
 import org.junit.Assert;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ public class FindByStatusService extends BaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(FindByStatusService.class);
     FindByStatusResponsePojo[] findByStatusResponsePojo = null;
+    ErrorResponsePojo errorResponsePojo = null;
     String validStatus = properties.getProperty("validPetStatuses");
     Response response;
 
@@ -95,10 +97,25 @@ public class FindByStatusService extends BaseService {
 
     @Given("an  invalid pet status {string}")
     public void anInvalidPetStatus(String invalidPetStatus) {
-        if (!validStatus.contains(invalidPetStatus)) {
-            logger.info("Invalid pet status specified:" + invalidPetStatus);
-        } else {
-            Assert.fail("Invalid pet status NOT specified:" + invalidPetStatus);
+        try {
+            if (!validStatus.contains(invalidPetStatus)) {
+                logger.info("Invalid pet status specified:" + invalidPetStatus);
+            } else {
+                Assert.fail("Invalid pet status NOT specified:" + invalidPetStatus);
+            }
+        } catch (Exception e) {
+            logger.error("Exception while checking for invalid pet status:" + invalidPetStatus);
+        }
+    }
+
+    @And("I should see error {string} in the response")
+    public void iShouldSeeErrorInTheResponse(String errorMessage) {
+        try {
+            errorResponsePojo = response.getBody().as(ErrorResponsePojo.class);
+            Assert.assertTrue(errorResponsePojo.getMessage().toUpperCase().contains(errorMessage.toUpperCase()));
+            logger.info("Error message:" + errorMessage + " found in response");
+        } catch (Exception e) {
+            logger.error("Exception while validating error:" + errorMessage + "  in response:" + e.getMessage());
         }
     }
 }

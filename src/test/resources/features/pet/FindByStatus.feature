@@ -24,14 +24,9 @@ Feature: The pet findByStatus service finds pet by status
     Given an  invalid pet status "<petStatus>"
     When I retrieve pets by status "<petStatus>"
     Then I should see response status code as "<statusCode>"
+    And I should see error "<errorMessage>" in the response
 
     Examples:
 
-      | petStatus | statusCode |
-      | invalid   | 400        |
-
-
-
-
-
-
+      | petStatus | statusCode | errorMessage |
+      | invalid   | 400        | Input error  |
