@@ -16,59 +16,89 @@ import java.util.HashMap;
 
 public class FindByStatusService extends BaseService {
 
-    private static Logger logger = LoggerFactory.getLogger(FindByStatusService.class);
+    private static final Logger logger = LoggerFactory.getLogger(FindByStatusService.class);
     FindByStatusResponsePojo[] findByStatusResponsePojo = null;
+    String validStatus = properties.getProperty("validPetStatuses");
     Response response;
 
     @Given("a valid pet status {string}")
     public void isPetStatusValid(String status) {
-        String validStatus = properties.getProperty("validPetStatuses");
-        if (validStatus.contains(status)) {
-            logger.info("given status:" + status + " is valid");
-        } else {
-            Assert.fail("given status:" + status + " is invalid!");
+        try {
+            if (validStatus.contains(status)) {
+                logger.info("given status:" + status + " is valid");
+            } else {
+                Assert.fail("given status:" + status + " is invalid!");
+            }
+        } catch (Exception e) {
+            logger.error("Exception while validating pet status:" + e.getMessage());
         }
     }
 
 
     @When("I retrieve pets by status {string}")
     public void iRetrievePetsByStatus(String petStatus) {
-        String endPoint = properties.getProperty("petFindByStatusEndpoint");
-        HashMap<String, String> queryParams = new HashMap<>();
-        queryParams.put("status", petStatus);
-        response = restDriver.getRequestWithQueryParams(endPoint, queryParams);
-        logger.info("Response:" + response.getBody().asPrettyString());
+        try {
+            String endPoint = properties.getProperty("petFindByStatusEndpoint");
+            HashMap<String, String> queryParams = new HashMap<>();
+            queryParams.put("status", petStatus);
+            response = restDriver.getRequestWithQueryParams(endPoint, queryParams);
+            logger.info("Response:" + response.getBody().asPrettyString());
+        } catch (Exception e) {
+            logger.error("Exception while retrieving pets by status:" + petStatus + ":" + e.getMessage());
+        }
     }
 
     @Then("I should see response status code as {string}")
     public void iShouldSeeResponseStatusCodeAs(String expectedResponseCode) {
-        TestUtils.validateResponseStatusCode(response, Integer.parseInt(expectedResponseCode));
-        logger.info("Response status code validation:PASS!:" + response.statusCode());
+        try {
+            TestUtils.validateResponseStatusCode(response, Integer.parseInt(expectedResponseCode));
+            logger.info("Response status code validation:PASS!:" + response.statusCode());
+        } catch (Exception e) {
+            logger.error("Exception while validating response status code:" + e.getMessage());
+        }
     }
 
     @And("response time should be less than {string} milliseconds")
     public void responseTimeShouldBeLessThan(String expectedResponseTimeInMilliSeconds) {
-        TestUtils.validateResponseTime(response, Long.parseLong(expectedResponseTimeInMilliSeconds));
-        ;
-        logger.info("Response time validation:PASS!:" + response.getTime());
+        try {
+            TestUtils.validateResponseTime(response, Long.parseLong(expectedResponseTimeInMilliSeconds));
+            logger.info("Response time validation:PASS!:" + response.getTime());
+        } catch (Exception e) {
+            logger.error("Exception while validating response time:" + e.getMessage());
+        }
     }
 
     @And("I should be able to see details of pet {string}")
     public void iShouldBeAbleToSeeDetailsOfPet(String petCategoryName) {
-        findByStatusResponsePojo = response.getBody().as(FindByStatusResponsePojo[].class);
-        int petDetailsValidationFlag = 0;
+        try {
+            findByStatusResponsePojo = response.getBody().as(FindByStatusResponsePojo[].class);
+            int petDetailsValidationFlag = 0;
 
-        for (int i = 0; i < findByStatusResponsePojo.length; i++) {
-            String actualPetCategoryName = findByStatusResponsePojo[i].getCategory().getName();
-            if (actualPetCategoryName.trim().toUpperCase().equals(petCategoryName.toUpperCase().toString())) {
-                petDetailsValidationFlag = 1;
-                logger.info("Pet category name:" + petCategoryName + " found.Here are the pet details whose Id is:" + findByStatusResponsePojo[i].getId() + ";Pet Name:" + findByStatusResponsePojo[i].getName() + ";Pet Status:" + findByStatusResponsePojo[i].getStatus());
+            for (int i = 0; i < findByStatusResponsePojo.length; i++) {
+                if (findByStatusResponsePojo[i].getCategory() != null) {
+                    String actualPetCategoryName = findByStatusResponsePojo[i].getCategory().getName();
+                    if (actualPetCategoryName.trim().toUpperCase().equals(petCategoryName.toUpperCase().toString())) {
+                        petDetailsValidationFlag = 1;
+                        logger.info("Pet category name:" + petCategoryName + " found.Here are the pet details whose Id is:" + findByStatusResponsePojo[i].getId() + ";Pet Name:" + findByStatusResponsePojo[i].getName() + ";Pet Status:" + findByStatusResponsePojo[i].getStatus());
+                    }
+                }
             }
+
+            if (petDetailsValidationFlag == 0) {
+                logger.warn("Pet details NOT found for:" + petCategoryName);
+            }
+        } catch (Exception e) {
+            logger.error("Exception while validating the pet details of category:" + petCategoryName + ":" + e.getMessage());
         }
 
-        if (petDetailsValidationFlag == 0) {
-            logger.warn("Pet details NOT found for:" + petCategoryName);
-        }
+    }
 
+    @Given("an  invalid pet status {string}")
+    public void anInvalidPetStatus(String invalidPetStatus) {
+        if (!validStatus.contains(invalidPetStatus)) {
+            logger.info("Invalid pet status specified:" + invalidPetStatus);
+        } else {
+            Assert.fail("Invalid pet status NOT specified:" + invalidPetStatus);
+        }
     }
 }
