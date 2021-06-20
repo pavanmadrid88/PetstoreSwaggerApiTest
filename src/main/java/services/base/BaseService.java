@@ -1,4 +1,4 @@
-package stepDefinitions.services.base;
+package services.base;
 
 import utils.RestDriver;
 

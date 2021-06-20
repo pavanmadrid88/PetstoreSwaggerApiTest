@@ -21,7 +21,7 @@ Feature: The pet findByStatus service finds pet by status
   @findByStatus-invalid
   Scenario Outline: Get pet by an invalid Status
 
-    Given an  invalid pet status "<petStatus>"
+    Given an invalid pet status "<petStatus>"
     When I retrieve pets by status "<petStatus>"
     Then I should see response status code as "<statusCode>"
     And I should see error "<errorMessage>" in the response

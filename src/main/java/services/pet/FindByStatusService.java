@@ -1,4 +1,4 @@
-package stepDefinitions.services.pet;
+package services.pet;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -10,7 +10,7 @@ import models.response.pet.FindByStatusResponsePojo;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import stepDefinitions.services.base.BaseService;
+import services.base.BaseService;
 import utils.TestUtils;
 
 import java.util.HashMap;
@@ -56,7 +56,7 @@ public class FindByStatusService extends BaseService {
             TestUtils.validateResponseStatusCode(response, Integer.parseInt(expectedResponseCode));
             logger.info("Response status code validation:PASS!:" + response.statusCode());
         } catch (Exception e) {
-            logger.error("Exception while validating response status code:" + e.getMessage());
+            logger.error("Exception while validating models.response status code:" + e.getMessage());
         }
     }
 
@@ -66,7 +66,7 @@ public class FindByStatusService extends BaseService {
             TestUtils.validateResponseTime(response, Long.parseLong(expectedResponseTimeInMilliSeconds));
             logger.info("Response time validation:PASS!:" + response.getTime());
         } catch (Exception e) {
-            logger.error("Exception while validating response time:" + e.getMessage());
+            logger.error("Exception while validating models.response time:" + e.getMessage());
         }
     }
 
@@ -95,7 +95,7 @@ public class FindByStatusService extends BaseService {
 
     }
 
-    @Given("an  invalid pet status {string}")
+    @Given("an invalid pet status {string}")
     public void anInvalidPetStatus(String invalidPetStatus) {
         try {
             if (!validStatus.contains(invalidPetStatus)) {
@@ -113,9 +113,9 @@ public class FindByStatusService extends BaseService {
         try {
             errorResponsePojo = response.getBody().as(ErrorResponsePojo.class);
             Assert.assertTrue(errorResponsePojo.getMessage().toUpperCase().contains(errorMessage.toUpperCase()));
-            logger.info("Error message:" + errorMessage + " found in response");
+            logger.info("Error message:" + errorMessage + " found in models.response");
         } catch (Exception e) {
-            logger.error("Exception while validating error:" + errorMessage + "  in response:" + e.getMessage());
+            logger.error("Exception while validating error:" + errorMessage + "  in models.response:" + e.getMessage());
         }
     }
 }

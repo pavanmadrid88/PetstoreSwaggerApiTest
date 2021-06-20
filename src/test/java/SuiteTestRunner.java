@@ -1,6 +1,6 @@
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
-import stepDefinitions.services.base.BaseService;
+import services.base.BaseService;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import utils.RestDriver;
 
 @RunWith(CucumberWithSerenity.class)
-@CucumberOptions(features = "src/test/resources/features/", tags = "", glue = "stepDefinitions.services")
+@CucumberOptions(features = "src/test/resources/features/", tags = "", glue = "services")
 public class SuiteTestRunner {
 
     private static Properties properties;

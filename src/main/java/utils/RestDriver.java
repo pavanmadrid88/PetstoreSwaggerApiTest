@@ -28,7 +28,7 @@ public class RestDriver {
      * This method makes a get request for the endpoint specified
      *
      * @param endpoint - get request endPoint
-     * @return - response object of get request
+     * @return - models.response object of get request
      */
     public Response getRequest(String endpoint) {
         return SerenityRest.given().spec(requestSpecification).log().all().get(endpoint);
@@ -40,7 +40,7 @@ public class RestDriver {
      * @param endpoint    - get request endPoint
      * @param queryParams - get request query parameters
      * @param pathParams  - get request path parameters
-     * @return - response object of get request
+     * @return - models.response object of get request
      */
     public Response getRequestWithPathAndQueryParams(String endpoint, HashMap queryParams, HashMap pathParams) {
         return SerenityRest.given().spec(requestSpecification).log().all().queryParams(queryParams).pathParams(pathParams).get(endpoint);
@@ -51,7 +51,7 @@ public class RestDriver {
      *
      * @param endpoint    - get request endPoint
      * @param queryParams - get request query parameters
-     * @return - response object of get request
+     * @return - models.response object of get request
      */
     public Response getRequestWithQueryParams(String endpoint, HashMap queryParams) {
         return SerenityRest.given().spec(requestSpecification).log().all().queryParams(queryParams).get(endpoint);
@@ -63,7 +63,7 @@ public class RestDriver {
      *
      * @param endpoint   - get request endPoint
      * @param pathParams - get request query parameters
-     * @return - response object of get request
+     * @return - models.response object of get request
      */
     public Response getRequestWithPathParams(String endpoint, HashMap pathParams) {
         return SerenityRest.given().spec(requestSpecification).log().all().pathParams(pathParams).get(endpoint);
@@ -75,7 +75,7 @@ public class RestDriver {
      *
      * @param endPoint    - post request endPoint
      * @param requestBody - requestBody
-     * @return - response object of get request
+     * @return - models.response object of get request
      */
     public Response postRequest(String endPoint, Object requestBody) {
         return SerenityRest.given().spec(requestSpecification).log().all().body(requestBody).post(endPoint);
@@ -87,7 +87,7 @@ public class RestDriver {
      *
      * @param endpoint   - put request endPoint
      * @param pathParams - get request query parameters
-     * @return - response object of get request
+     * @return - models.response object of get request
      */
     public Response putRequestWithPathParams(String endpoint, Object requestBody, HashMap pathParams) {
         return SerenityRest.given().spec(requestSpecification).log().all().body(requestBody).pathParams(pathParams).put(endpoint);
@@ -99,7 +99,7 @@ public class RestDriver {
      *
      * @param endpoint   - delete request endPoint
      * @param pathParams - get request query parameters
-     * @return - response object of get request
+     * @return - models.response object of get request
      */
     public Response deleteRequestWithPathParams(String endpoint, HashMap pathParams) {
         return SerenityRest.given().spec(requestSpecification).log().all().pathParams(pathParams).delete(endpoint);

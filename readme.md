@@ -8,8 +8,8 @@
 * Gradle setup with Serenity Test runner.
 * Test cases written in Gherkin format(Given/When/Then)
 * Implement methods for API calls using Serenity-REST Wrapper
-* POJO objects to represent requests/response
-* Utility methods for API response validations,extracting JSON data etc.
+* POJO objects to represent requests/models.response
+* Utility methods for API models.response validations,extracting JSON data etc.
 * Properties file to drive environment test data
 * Support for detailed aggregate Serenity-HTML report
 
@@ -36,8 +36,8 @@ Feature: The pet findByStatus service finds pet by status.
 
     Given a valid pet status "<petStatus>"
     When I retrieve pets by status "<petStatus>"
-    Then I should see response status code as "<statusCode>"
-    And  response time should be less than "<expectedResponseTime>" milliseconds
+    Then I should see models.response status code as "<statusCode>"
+    And  models.response time should be less than "<expectedResponseTime>" milliseconds
     And I should be able to see details of pet "<petName>"
 
     Examples:
